@@ -10,12 +10,20 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.10.2",
+    "@react-native-community/masked-view": "0.1.5",
+    "@react-navigation/bottom-tabs": "^5.6.1",
+    "@react-navigation/native": "^5.6.1",
+    "@react-navigation/stack": "^5.6.2",
     "expo": "~36.0.0",
-    "expo-font": "~8.0.0",
     "native-base": "2.13.8",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-gesture-handler": "~1.5.0",
+    "react-native-reanimated": "~1.4.0",
+    "react-native-safe-area-context": "0.6.0",
+    "react-native-screens": "2.0.0-alpha.12",
+    "react-native-vector-icons": "^6.6.0",
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
