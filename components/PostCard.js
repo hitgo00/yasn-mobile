@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
+
+import { Video } from 'expo-av';
 import { Image } from 'react-native';
 import {
   Card,
@@ -11,7 +13,8 @@ import {
   Right,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-export default function PostCard() {
+export default function PostCard(props) {
+  const videoRef = useRef(null);
   return (
     <Card>
       <CardItem>
@@ -20,18 +23,41 @@ export default function PostCard() {
             source={{ uri: 'https://picsum.photos/seed/picsum/200' }}
           />
           <Body>
-            <Text>First Post</Text>
+            <Text>{props.title}</Text>
             <Text note>11h ago</Text>
           </Body>
         </Left>
       </CardItem>
       <CardItem cardBody>
-        <Image
-          source={{
-            uri: 'https://picsum.photos/seed/picsum/300',
-          }}
-          style={{ height: 300, width: null, flex: 1 }}
-        />
+        {props.imageUrl ? (
+          <Image
+            source={{
+              uri:
+                `https://res.cloudinary.com/${cloudname}/image/upload/c_crop,g_custom/v1/` +
+                props.imageUrl,
+            }}
+            style={{ height: 300, width: null, flex: 1 }}
+          />
+        ) : (
+          <Video
+            ref={videoRef}
+            source={{
+              uri:
+                `https://res.cloudinary.com/${cloudname}/video/upload/q_auto/v1588194153/` +
+                props.videoUrl,
+            }}
+            rate={1.0}
+            volume={1.0}
+            isMuted={false}
+            usePoster
+            // onLoad={() => videoRef.current.pauseAsync()}
+            // resizeMode="contain"
+            shouldPlay
+            isLooping
+            useNativeControls={true}
+            style={{ width: 375, height: 300 }}
+          />
+        )}
       </CardItem>
       <CardItem>
         <Left>
