@@ -40,9 +40,9 @@ export default function App() {
         }}
       >
         <Tab.Screen name="Feed" component={Feed} />
-        <Tab.Screen name="AddPost" component={Profile} />
+        <Tab.Screen name="AddPost" component={AddPost} />
         <Tab.Screen name="Chat" component={Chat} />
-        <Tab.Screen name="Profile" component={AddPost} />
+        <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     </NavigationContainer>
   );

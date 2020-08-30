@@ -4,6 +4,8 @@ import queryString from 'query-string';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { Container, Text, Content, Header, Body } from 'native-base';
 import PostCard from '../components/PostCard';
+import GoogleSignIn from './GoogleSignIn';
+
 export default (Feed = () => {
   const [browseTag, SetBrowseTag] = useState('');
   const [posts, setPosts] = useState();
@@ -11,7 +13,7 @@ export default (Feed = () => {
   useEffect(() => {
     axios
       .get(
-        `${serverUrl}/home?` +
+        `https://connectda.herokuapp.com/home?` +
           queryString.stringify({ tag: browseTag }, { withCredentials: true })
       )
       .then((res) => {
@@ -24,6 +26,7 @@ export default (Feed = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      {/* <GoogleSignIn /> */}
       <Content>
         {posts
           ? posts.map((post) => (
@@ -32,9 +35,6 @@ export default (Feed = () => {
               </>
             ))
           : null}
-        {/* <PostCard />
-        <PostCard />
-        <PostCard /> */}
       </Content>
     </SafeAreaView>
   );
