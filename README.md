@@ -8,7 +8,10 @@ You can find the repository for the Connect(YASN) Web [here](https://github.com/
 
 A YASN exclusively for students of DAIICT!
 This repo contains the code for Connect Mobile app built using React Native.
-![Screenshots](https://github.com/hitgo00/yasn-mobile/blob/master/assets/ss.png)
+
+
+<img src="https://github.com/hitgo00/yasn-mobile/blob/master/assets/ss.png" height="490">
+
 
 ## Development
 
