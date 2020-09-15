@@ -5,15 +5,16 @@ import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { Container, Text, Content, Header, Body } from 'native-base';
 import PostCard from '../components/PostCard';
 import GoogleSignIn from './GoogleSignIn';
+import { API_URL } from '@env';
 
 export default (Feed = () => {
   const [browseTag, SetBrowseTag] = useState('');
   const [posts, setPosts] = useState();
-
+  console.log(API_URL);
   useEffect(() => {
     axios
       .get(
-        `https://connectda.herokuapp.com/home?` +
+        `${API_URL}/home?` +
           queryString.stringify({ tag: browseTag }, { withCredentials: true })
       )
       .then((res) => {
@@ -24,18 +25,14 @@ export default (Feed = () => {
   }, []);
   console.log(posts);
 
+  {
+    /* <SafeAreaView style={{ flex: 1 }}>{<GoogleSignIn />}</SafeAreaView>; */
+  }
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      {/* <GoogleSignIn /> */}
-      <Content>
-        {posts
-          ? posts.map((post) => (
-              <>
-                <PostCard {...post} key={post._id} />
-              </>
-            ))
-          : null}
-      </Content>
-    </SafeAreaView>
+    <Content>
+      {posts
+        ? posts.map((post) => <PostCard {...post} key={post._id} />)
+        : null}
+    </Content>
   );
 });

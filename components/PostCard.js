@@ -1,6 +1,6 @@
 import React, { Component, useRef } from 'react';
 import moment from 'moment';
-// import Moment from 'react-moment';
+import { CLOUDINARY_CLOUDNAME } from '@env';
 
 import { Video, Audio } from 'expo-av';
 import { Image, TouchableHighlight } from 'react-native';
@@ -27,12 +27,7 @@ export default function PostCard(props) {
           />
           <Body>
             <Text>{props.title}</Text>
-            <Text note>
-              {/* <Moment format="MMM D, YYYY" withTitle> */}
-              {moment(props.date).format('MMM D')}
-              {/* {props.date} */}
-              {/* </Moment> */}
-            </Text>
+            <Text note>{moment(props.date).format('MMM D')}</Text>
           </Body>
         </Left>
       </CardItem>
@@ -41,7 +36,7 @@ export default function PostCard(props) {
           <Image
             source={{
               uri:
-                `https://res.cloudinary.com/hitgo/image/upload/c_crop,g_custom/v1/` +
+                `https://res.cloudinary.com/${CLOUDINARY_CLOUDNAME}/image/upload/c_crop,g_custom/v1/` +
                 props.imageUrl,
             }}
             style={{ height: 300, width: null, flex: 1 }}
@@ -67,7 +62,7 @@ export default function PostCard(props) {
               ref={videoRef}
               source={{
                 uri:
-                  `https://res.cloudinary.com/hitgo/video/upload/q_auto/v1588194153/` +
+                  `https://res.cloudinary.com/${CLOUDINARY_CLOUDNAME}/video/upload/q_auto/v1588194153/` +
                   props.videoUrl,
               }}
               rate={1.0}

@@ -19,9 +19,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "connectDA0987654321abcdefgh",
       "config": {
         "googleSignIn": {
-          "reservedClientId": "203079620951-q6ndi6cn9ng4b55jo8rr1icdonkd05b2.apps.googleusercontent.com"
+          "reservedClientId": ""
         }
       }
     }
