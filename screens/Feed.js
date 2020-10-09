@@ -32,6 +32,7 @@ export default (Feed = () => {
       {posts
         ? posts.map((post) => <PostCard {...post} key={post._id} />)
         : null}
+        <PostCard title='Lorem Ipsum' description='This is Description' />
     </Content>
   );
 });
