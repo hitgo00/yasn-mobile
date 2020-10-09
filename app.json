@@ -19,12 +19,15 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "connectDA0987654321abcdefgh",
+      "bundleIdentifier": "host.exp.exponent",
       "config": {
         "googleSignIn": {
           "reservedClientId": ""
         }
       }
+    },
+    "android": {
+      "package": "host.exp.exponent"
     }
   }
 }

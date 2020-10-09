@@ -1,49 +1,86 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Feed from './screens/Feed';
-import Profile from './screens/Profile';
-import Chat from './screens/Chat';
-import AddPost from './screens/AddPost';
-import { Container, Text, Content, Header, Body } from 'native-base';
-import { NavigationContainer } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
-const Tab = createBottomTabNavigator();
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Header>
-        <Body>
-          <Text>Connect</Text>
-        </Body>
-      </Header>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+import React, { lazy } from "react";
+import { AsyncStorage } from "react-native";
+import { render } from "react-dom";
+import { View } from "react-native";
+import DashBoard from "./Home.js";
+import LogInScreen from "./screens/SignIn";
+import LoadingScreen from "./screens/Loading";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { AuthContext } from "./components/context";
 
-            if (route.name === 'Feed') {
-              iconName = focused ? 'ios-compass' : 'ios-compass';
-            } else if (route.name === 'Profile') {
-              iconName = focused ? 'ios-contact' : 'ios-contact';
-            } else if (route.name === 'AddPost') {
-              iconName = focused ? 'ios-add-circle' : 'ios-add-circle';
-            } else if (route.name === 'Chat') {
-              iconName = focused ? 'ios-chatboxes' : 'ios-chatboxes';
-            }
-            // You can return any component that you like here!
-            return <Icon name={iconName} size={28} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: '#208af5',
-          inactiveTintColor: 'gray',
-        }}
-      >
-        <Tab.Screen name="Feed" component={Feed} />
-        <Tab.Screen name="AddPost" component={AddPost} />
-        <Tab.Screen name="Chat" component={Chat} />
-        <Tab.Screen name="Profile" component={Profile} />
-      </Tab.Navigator>
-    </NavigationContainer>
+export default function App() {
+  const AppSwitchNavigator = createSwitchNavigator({
+    LoadingScreen: LoadingScreen,
+    LogInScreen: LogInScreen,
+    DashBoard: DashBoard,
+  });
+
+  const AppNavigator = createAppContainer(AppSwitchNavigator);
+
+  const initialLoginState = {
+    user: null,
+    userToken: null,
+  };
+
+  const loginReducer = (prevState, action) => {
+    switch (action.type) {
+      case "LOGIN":
+        return {
+          ...prevState,
+          user: action.user,
+          userToken: action.token,
+        };
+      case "LOGOUT":
+        return {
+          ...prevState,
+          user: null,
+          userToken: null,
+        };
+    }
+  };
+
+  const [loginState, dispatch] = React.useReducer(
+    loginReducer,
+    initialLoginState
+  );
+
+  const authcontext = React.useMemo(
+    () => ({
+      signIn: async (result) => {
+        const Token = result.accessToken;
+        const user = result.user;
+
+        try {
+          await AsyncStorage.setItem("userToken", Token);
+          await AsyncStorage.setItem("user", JSON.stringify(user));
+        } catch (e) {
+          console.log(e);
+        }
+        AsyncStorage.getItem("user", (err, res) => {
+          console.log("From SignIn from Storage : ", JSON.parse(res));
+        });
+        dispatch({ type: "LOGIN", user: user, token: Token });
+      },
+      signOut: async () => {
+        try {
+          console.log("called");
+          await AsyncStorage.removeItem("userToken");
+          await AsyncStorage.removeItem("user");
+        } catch (e) {
+          console.log(e);
+        }
+        dispatch({ type: "LOGOUT" });
+      },
+      Retrive: (user, userToken) => {
+        dispatch({ type: "LOGIN", user: user, token: userToken });
+      },
+    }),
+    []
+  );
+
+  return (
+    <AuthContext.Provider value={{ authcontext, loginState }}>
+      <AppNavigator />
+    </AuthContext.Provider>
   );
 }
