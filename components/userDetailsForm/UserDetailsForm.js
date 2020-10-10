@@ -3,8 +3,10 @@ import { Input, Button, Text } from 'react-native-elements';
 import { ActivityIndicator, Image, ScrollView, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Formik } from 'formik';
+import MultiSelect from 'react-native-multiple-select';
 import * as yup from 'yup';
-import { Icon, Picker } from 'native-base';
+import { Icon, Picker, View } from 'native-base';
+import { tags } from './constants';
 
 
 const formSchema = yup.object({
@@ -18,12 +20,16 @@ const formSchema = yup.object({
   instaUrl: yup.string(),
 })
 
+
 export default function UserDetailsForm(props) {
-  const [clubComm, setClubComm] = useState('');
-  const [AllClubComm, setAllClubComm] = useState([])
+  const [selectedItems, setSelectedItems] = useState([]);
   const onValueChange = (value) =>{
     setClubComm(value)
   }  
+
+  const onSelectedItemsChange = selectedItems => {
+    setSelectedItems(selectedItems)
+  };
   
   return (
       <Formik
@@ -37,6 +43,7 @@ export default function UserDetailsForm(props) {
         }}
         validationSchema={formSchema}
         onSubmit={(values) => {
+          values.clubsComm = selectedItems;
           console.log(values)
         }}
       >
@@ -93,21 +100,35 @@ export default function UserDetailsForm(props) {
                   props.touched.instaUrl && props.errors.instaUrl
                 }
               />
-              <Picker
-                mode="dropdown"
-                iosIcon={<Icon name="arrow-down" />}
-                style={{ width: undefined }}
-                placeholder="Select your SIM"
-                placeholderStyle={{ color: "#bfc6ea" }}
-                placeholderIconColor="#007aff"
-                selectedValue={clubComm}
-                onValueChange={onValueChange}
-              >
-                <Picker.Item label="Add Club" value="Add Club" />
-                <Picker.Item label="Sports Committee" value="Sports Committee" />
-                <Picker.Item label="Music Club" value="Music Club" />
-                <Picker.Item label="Programming Club" value="Programming Club" />
-              </Picker>
+              <MultiSelect
+                styleMainWrapper={{paddingHorizontal: 10}}
+                hideTags
+                items={tags}
+                uniqueKey="name"
+                onSelectedItemsChange={onSelectedItemsChange}
+                selectedItems={selectedItems}
+                selectText="Add Clubs/Committees"
+                searchInputPlaceholderText="Search..."
+                onChangeInput={ (text)=> console.log(text)}
+                altFontFamily="ProximaNova-Light"
+                tagRemoveIconColor="#CCC"
+                tagBorderColor="#CCC"
+                tagTextColor="#CCC"
+                selectedItemTextColor="#CCC"
+                selectedItemIconColor="#CCC"
+                itemTextColor="#000"
+                displayKey="name"
+                searchInputStyle={{ color: '#CCC' }}
+                submitButtonColor="#ff8282"
+                submitButtonText="Done"
+              />
+              <View style={{flexWrap: 'wrap', justifyContent: 'space-evenly',flexDirection: 'row', paddingHorizontal: 10}}>
+                {selectedItems.map(item => (
+                  <View style={{borderWidth: 2, borderRadius: 10, padding: 5, margin: 2}}>
+                    <Text style={{fontSize: 17}}>{item}</Text>
+                  </View>
+                ))}
+              </View>
               <Input
                 placeholder="BIO"
                 style={styles.inputStyle}

@@ -3,8 +3,8 @@ import axios from "axios";
 import queryString from "query-string";
 import { StyleSheet, View, SafeAreaView } from "react-native";
 import { Container, Text, Content, Header, Body } from "native-base";
-import PostCard from "../components/PostCard";
 import { API_URL } from "@env";
+import PostCard from "../components/postCard/PostCard";
 
 export default (Feed = () => {
   const [browseTag, SetBrowseTag] = useState("");

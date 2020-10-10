@@ -1,0 +1,26 @@
+export const tags = [
+  { id: '1', name: 'DSC' },
+  { id: '2', name: 'DADC' },
+  { id: '3', name: 'Music Club' },
+  { id: '4', name: 'Press Club' },
+  { id: '5', name: 'Headrush' },
+  { id: '6', name: 'DTG' },
+  { id: '7', name: 'MSTC' },
+  { id: '8', name: 'SPC' },
+  { id: '9', name: 'CMC' },
+  { id: '11', name: 'Sports Comm' },
+  { id: '12', name: 'DCEI' },
+  { id: '13', name: 'ICT Comm' },
+  { id: '14', name: 'Acad Comm' },
+  { id: '15', name: 'Radio Club' },
+  { id: '16', name: 'Khelaiya Club' },
+  { id: '17', name: 'Synapse Comm' },
+  { id: '18', name: 'Cultural Comm' },
+  { id: '19', name: 'Debate Club' },
+  { id: '20', name: 'Research Club' },
+  { id: '21', name: 'IEEE SB' },
+  { id: '22', name: 'Cubing Club' },
+  { id: '23', name: 'PMMC' },
+  { id: '24', name: 'Heritage club' }
+];
+
