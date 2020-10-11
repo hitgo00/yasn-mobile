@@ -3,6 +3,7 @@ import { View, Button } from "react-native";
 import * as Google from "expo-google-app-auth";
 import { AuthContext } from "../components/context";
 import { SocialIcon, Text } from "react-native-elements";
+import {Android_ID,IOS_ID} from "@env"
 
 export default function SignIn() {
   const { authcontext } = React.useContext(AuthContext);
@@ -13,18 +14,16 @@ export default function SignIn() {
       console.log("Try..");
       const result = await Google.logInAsync({
         //  behavior: "web",
-        androidClientId:
-          "688257914681-hvulaq80h91s1e983ig4m97fphg2h6k6.apps.googleusercontent.com",
-        iosClientId:
-          "688257914681-j8449v1oqtpi4f5jo1ugcs2eav86ujbg.apps.googleusercontent.com",
+        androidClientId:Android_ID,
+        iosClientId:IOS_ID,
         scopes: ["profile", "email"],
         hostedDomain: "daiict.ac.in",
       });
 
       if (result.type === "success") {
         signIn(result);
-        //console.log(result);
-        return result.accessToken;
+        console.log(result);
+        return result.idToken;
       } else {
         return { cancelled: true };
       }

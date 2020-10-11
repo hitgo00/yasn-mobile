@@ -1,6 +1,6 @@
 import React, { Component, useRef } from 'react';
 import moment from 'moment';
-import { CLOUDINARY_CLOUDNAME } from '@env';
+import { CLOUD } from '@env';
 
 import { Video, Audio } from 'expo-av';
 import { Image, TouchableHighlight } from 'react-native';
@@ -17,7 +17,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 export default function PostCard(props) {
   const videoRef = useRef(null);
-
+//  const CLOUDNAME="hitgo";
   return (
     <Card>
       <CardItem>
@@ -36,7 +36,7 @@ export default function PostCard(props) {
           <Image
             source={{
               uri:
-                `https://res.cloudinary.com/${CLOUDINARY_CLOUDNAME}/image/upload/c_crop,g_custom/v1/` +
+                `https://res.cloudinary.com/${CLOUD}/image/upload/c_crop,g_custom/v1/` +
                 props.imageUrl,
             }}
             style={{ height: 300, width: null, flex: 1 }}
@@ -62,7 +62,7 @@ export default function PostCard(props) {
               ref={videoRef}
               source={{
                 uri:
-                  `https://res.cloudinary.com/${CLOUDINARY_CLOUDNAME}/video/upload/q_auto/v1588194153/` +
+                  `https://res.cloudinary.com/${CLOUD}/video/upload/q_auto/v1588194153/` +
                   props.videoUrl,
               }}
               rate={1.0}
