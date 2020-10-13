@@ -6,6 +6,8 @@ import DashBoard from "./Home.js";
 import LogInScreen from "./screens/SignIn";
 import { AuthContext } from "./components/context";
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import {store} from "./store";
+import { StoreProvider } from 'easy-peasy';
 
 const theme = {
   ...DefaultTheme,
@@ -23,6 +25,7 @@ export default function App() {
     user: null,
     userToken: null,
     isLoading: true,
+    nickname: null,
   };
 
   const loginReducer = (prevState, action) => {
@@ -40,7 +43,15 @@ export default function App() {
           user: null,
           userToken: null,
           isLoading: false,
+          nickname:null
         };
+      case "SetNickname":
+       
+        return{
+          ...prevState,
+          nickname:action.name,
+        }
+
     }
   };
 
@@ -71,6 +82,7 @@ export default function App() {
           console.log("called");
           await AsyncStorage.removeItem("userToken");
           await AsyncStorage.removeItem("user");
+          await AsyncStorage.removeItem("nickname");
         } catch (e) {
           console.log(e);
         }
@@ -78,6 +90,17 @@ export default function App() {
       },
       Retrive: (user, userToken) => {
         dispatch({ type: "LOGIN", user: user, token: userToken });
+      },
+      SetNickname: async (name)=>{
+        try{
+          await AsyncStorage.setItem("nickname",name);
+         
+          dispatch({type:"SetNickname",name});
+        }
+        catch(e){
+          console.log(e);
+        }
+        
       },
     }),
     []
@@ -97,6 +120,9 @@ export default function App() {
         user=JSON.parse(res);
         dispatch({ type: "LOGIN", user: user, token: userToken });
       });
+      AsyncStorage.getItem("nickname",(err,name)=>{
+        dispatch({type:"SetNickname",name});
+      })
     } 
     else{
       dispatch({type:"LOGIN",user:null,token:null});
@@ -117,10 +143,14 @@ export default function App() {
   }
 
   return (
+    
     <PaperProvider theme={theme}>
+    <StoreProvider store={store}>
     <AuthContext.Provider value={{ authcontext, loginState }}>
       {loginState.userToken!==null? <DashBoard/> : <LogInScreen/>}
     </AuthContext.Provider>
+    </StoreProvider>
     </PaperProvider>
+   
   );
 }
