@@ -107,28 +107,20 @@ export default function App() {
   );
 
   useEffect(()=>{
-    setTimeout(()=>{
-    let user=null;
-    let userToken=null;
-    AsyncStorage.getItem("userToken", (err, result) => {
-    console.log("Loading Screen..");
-    userToken=result;
-    if (result) {
-      AsyncStorage.getItem("user", (err, res) => {
-        
-        console.log(result);
-        user=JSON.parse(res);
-        dispatch({ type: "LOGIN", user: user, token: userToken });
-      });
-      AsyncStorage.getItem("nickname",(err,name)=>{
-        dispatch({type:"SetNickname",name});
-      })
-    } 
-    else{
-      dispatch({type:"LOGIN",user:null,token:null});
+    async function fetchData(){
+      const userToken= await AsyncStorage.getItem("userToken");
+      if(userToken){
+          const rawUser=await AsyncStorage.getItem("user");
+          const user=JSON.parse(rawUser);
+          dispatch({ type: "LOGIN", user: user, token: userToken });
+          const name=await AsyncStorage.getItem("nickname");
+          dispatch({type:"SetNickname",name});
+      }
+      else{
+        dispatch({type:"LOGIN",user:null,token:null});
+      }
     }
-  });
-    },1000)
+    fetchData();
 },[]);
   
 
