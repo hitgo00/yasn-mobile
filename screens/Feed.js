@@ -6,27 +6,28 @@ import { Container, Text, Content, Header, Body } from "native-base";
 import PostCard from "../components/PostCard";
 import { AuthContext } from "../components/context";
 import { API_URL } from "@env";
+import { useFocusEffect } from '@react-navigation/native';
 
 
 export default (Feed = () => {
   const [browseTag, SetBrowseTag] = useState("");
   const [posts, setPosts] = useState();
+  const { loginState } = React.useContext(AuthContext);
 
-   const { loginState } = React.useContext(AuthContext);
-
-  const email=loginState.user.email;
+   const email=loginState.user.email;
   const googleToken=loginState.userToken;
 
-  console.log(API_URL);
 
-  useEffect(() => {
-    axios
+  useFocusEffect(
+    React.useCallback(() => {
+      axios
       .get(
         `${API_URL}/home?` +
           queryString.stringify({ tag: browseTag ,email,googleToken}, { withCredentials: true })
       )
       .then((res) => {
         if(res.data!=="invalid token"){
+          console.log("========Again=======");
           setPosts(res.data);
         }
         else{
@@ -36,8 +37,29 @@ export default (Feed = () => {
       })
 
       .catch((err) => console.log(err));
-  }, []);
-  console.log(posts);
+    }, [])
+  );
+
+  useEffect(() => {
+    axios
+      .get(
+        `${API_URL}/home?` +
+          queryString.stringify({ tag: browseTag ,email,googleToken}, { withCredentials: true })
+      )
+      .then((res) => {
+        if(res.data!=="invalid token"){
+          console.log("........................................Again..........................................................");
+          setPosts(res.data);
+        }
+        else{
+          Alert.alert("Your Session is Expired","Please Login Again.");
+        }
+        
+      })
+
+      .catch((err) => console.log(err));
+  }, []); 
+//  console.log(posts);
 
   {
     /* <SafeAreaView style={{ flex: 1 }}>{<GoogleSignIn />}</SafeAreaView>; */

@@ -42,6 +42,7 @@
     "react-native-material-textfield": "^0.16.1",
     "react-native-material-ui": "^1.30.1",
     "react-native-paper": "^4.2.0",
+    "react-native-paper-dropdown": "^0.0.5",
     "react-native-picker-dropdown": "^0.1.2",
     "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",

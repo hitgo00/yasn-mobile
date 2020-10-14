@@ -12,6 +12,7 @@ import { StoreProvider } from 'easy-peasy';
 const theme = {
   ...DefaultTheme,
   roundness: 2,
+  mode:'dark',
   colors: {
     ...DefaultTheme.colors,
     primary: '#3f51b5',
@@ -51,7 +52,6 @@ export default function App() {
           ...prevState,
           nickname:action.name,
         }
-
     }
   };
 

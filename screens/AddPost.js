@@ -4,21 +4,29 @@ import { Text, Container } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from "../components/context";
 import { Picker } from 'react-native-picker-dropdown';
-import { Card,Button,TextInput,HelperText } from 'react-native-paper';
+import { Card,Button,TextInput,HelperText,CardMedia, Title } from 'react-native-paper';
+import DropDown from 'react-native-paper-dropdown';
 import axios from 'axios';
 import queryString from "query-string";
 import {API_URL,
 Cloud,
 Preset} from "@env";
+import { Video } from 'expo-av';
 
 
 
 export default (Profile = () => {
 
-  const tags = ['Project', 'Artwork', 'Writings', 'Music', 'Dance', 'Other'];
+  const tags = [
+    {label:'Project' , value:'Project'}, 
+    {label:'Artwork' , value:'Artwork'}, 
+    {label: 'Writings', value:'Writings'}, 
+    {label: 'Music', value:'Music'}, 
+    {label: 'Dance', value:'Dance'}, 
+    {label:'Other' , value:'Other'}, 
+  ]
 
-  const { loginState } = React.useContext(AuthContext);
-  
+  const { loginState,authcontext } = React.useContext(AuthContext);
   console.log("MY Attr : ",Cloud,Preset);
   
   
@@ -49,7 +57,7 @@ export default (Profile = () => {
       aspect: [1,1],
       quality: 1,
     });
-  //  console.log(result);
+    console.log(result);
     if (!result.cancelled) {
       setImage(result);
     }
@@ -58,12 +66,13 @@ export default (Profile = () => {
   const InitialValues = {
     title:"",
     description:"",
-    tag:"Projects"
+    tag:""
   };
 
   const [values, setValue] = useState(InitialValues);
   const [error, setError] = useState(true);
-
+  const [showDropDown, setShowDropDown] = useState(false);
+//  console.log(values);
   
   const onSubmit = async () => {
     if (!error) {
@@ -129,6 +138,7 @@ export default (Profile = () => {
                         if (res.data === 'successfully added post'){
                             Alert.alert("Post Uploaded Successfully.");
                             console.log("yessss...");
+    
                         }
                         else{
                           console.log(res.data);
@@ -148,19 +158,14 @@ export default (Profile = () => {
             Alert.alert(err);
             setLoad(false);
         })
-
-
-
-      }
-        
-                
+      }         
     }
   };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Container style={{justifyContent:'center'}}>
-      <Card elevation={2} style={{justifyContent:'center',marginLeft:20,marginRight:20,padding:5}}>
+      <Card elevation={2} style={{marginLeft:20,marginRight:20,padding:5}}>
           <TextInput
           style={{marginTop:10,marginRight:10,marginLeft:10}}
           label="Title"
@@ -180,30 +185,43 @@ export default (Profile = () => {
 
           <TextInput
            style={{margin:10}}
-          label="Discription"
-          value={values.discription}
+          label="Description"
+          value={values.description}
           onChangeText={(txt)=>{setValue({...values ,description:txt});}}
           mode="outlined"
           />
+        
+        <SafeAreaView style={{margin:10}}>
+          <DropDown
+            label={'Select Tag'}
+            mode={'outlined'}
+            value={values.tag}
+            setValue={(val)=>{setValue({...values,tag:val})}}
+            list={tags}
+            visible={showDropDown}
+            showDropDown={() => setShowDropDown(true)}
+            onDismiss={() => setShowDropDown(false)}
+            inputProps={{
+              right: <TextInput.Icon name={'menu-down'} />,
+            }}
+          />
+      </SafeAreaView>
 
-<Picker
- style={{marginLeft:10,marginRight:10,marginBottim:10,width:"40%"}}
-          selectedValue={values.tag}
-          onValueChange={(ItemValue,Index)=>{setValue({...values ,tag:ItemValue})}}
-          mode="dialog"
-         
-        >
-          <Picker.Item label={tags[0]} value={tags[0]} />
-          <Picker.Item label={tags[1]} value={tags[1]} />
-          <Picker.Item label={tags[2]} value={tags[2]} />
-          <Picker.Item label={tags[3]} value={tags[3]} />
-          <Picker.Item label={tags[4]} value={tags[4]} />
-          <Picker.Item label={tags[5]} value={tags[5]} />
-          
-        </Picker>
        <Button icon={IV===null?"camera":"check-circle"} mode="Outlined" style={{padding:5,alignContent:'center'}} onPress={pickImage} >Select</Button>
+       
+       {(IV!==null && IV.type==="image")?<Card.Cover source={{uri:IV.uri}} style={{width:250, height:250,marginLeft:"15%" }}/>:null}
+      
+        {(IV!==null && IV.type!=="image")?<Video  rate={1.0}
+          volume={1.0}
+          isMuted={false}
+          resizeMode="cover"
+          shouldPlay
+          isLooping
+          style={{ width: 250, height: 250, marginLeft:"15%" }}
+          source={{uri:IV.uri}}/>:null}
        <Button mode="contained" loading={loading} style={{padding:2,margin:5,alignContent:'center'}} onPress={onSubmit}>Post</Button>
       </Card>
+     
       </Container>
     </SafeAreaView>
   );
