@@ -3,9 +3,10 @@ import axios from "axios";
 import queryString from "query-string";
 import { StyleSheet, View, SafeAreaView, Alert } from "react-native";
 import { Container, Text, Content, Header, Body } from "native-base";
-import PostCard from "../components/PostCard";
+//import PostCard from "../components/PostCard";
+import PostCard from "../components/PostCard/index";
 import { AuthContext } from "../components/context";
-import { API_URL } from "@env";
+//import { API_URL } from "@env";
 import { useFocusEffect } from '@react-navigation/native';
 
 
@@ -17,7 +18,8 @@ export default (Feed = () => {
    const email=loginState.user.email;
   const googleToken=loginState.userToken;
 
-
+  const API_URL="https://connectda.herokuapp.com";
+  console.log("Feed: ",API_URL);
   useFocusEffect(
     React.useCallback(() => {
       axios
