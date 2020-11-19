@@ -17,7 +17,7 @@ export default (Feed = () => {
 
    const email=loginState.user.email;
   const googleToken=loginState.userToken;
-
+  console.log("From Feed : ",loginState);
   const API_URL="https://connectda.herokuapp.com";
   console.log("Feed: ",API_URL);
   useFocusEffect(

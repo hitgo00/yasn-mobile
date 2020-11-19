@@ -17,10 +17,10 @@ export default function ProfileDetails(props) {
                 <AntDesign style={styles.socialIcon} name="github" size={40} color="#211F1F" onPress={() => Linking.openURL(props.github)} />
             ):null}
             {props.linkedin?(
-                <AntDesign style={styles.socialIcon} name="linkedin-square" size={40} color="#211F1F" onPress={() => Linking.openURL(props.github)} />
+                <AntDesign style={styles.socialIcon} name="linkedin-square" size={40} color="#211F1F" onPress={() => Linking.openURL(props.linkedin)} />
             ):null}
             {props.instagram?(
-                <AntDesign style={styles.socialIcon} name="instagram" size={40} color="#211F1F" onPress={() => Linking.openURL(props.github)} />
+                <AntDesign style={styles.socialIcon} name="instagram" size={40} color="#211F1F" onPress={() => Linking.openURL(props.instagram)} />
             ):null}
         </CardItem>
         <CardItem style={styles.line}></CardItem>

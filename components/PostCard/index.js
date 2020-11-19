@@ -1,9 +1,9 @@
-import React, { Component, useRef } from 'react';
+import React, { Component, useRef,useEffect,useState } from 'react';
 import moment from 'moment';
 import { CLOUD } from '@env';
-import { Caption } from 'react-native-paper';
+import { Caption,Avatar } from 'react-native-paper';
 import { Video, Audio } from 'expo-av';
-import { Image, TouchableHighlight } from 'react-native';
+import { Image, TouchableHighlight,Alert } from 'react-native';
 import {
   Card,
   CardItem,
@@ -18,21 +18,64 @@ import {
   Item,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import AddComment from './AddComment';
+import Comments from './Comments';
+import { AuthContext } from "../context";
+import axios from 'axios';
+import queryString from 'query-string';
+
 
 export default function PostCard(props) {
+
+  const API_URL="https://connectda.herokuapp.com";
+
   const videoRef = useRef(null);
-  const [comment, setComment] = useState(false)
+  const [comment, setComment] = useState(false);
+  const [selected, setSelected] = useState(false);
+  const [likeCount, setLikeCount] = useState(props.likes.likers.length);
+  const [comments,setComments]=useState(props.comments);
+  const [commentCount,SetCommentCount]=useState(props.comments.length);
+
+  const { loginState } = React.useContext(AuthContext);
+  const  email=loginState.user.email;
+  const  googleToken=loginState.userToken;
+
+  // if (!loginState.userDetails_server) {
+  //   Alert.alert("Please Complete Your Profile from Profile Section First..");
+  // }
+  
+   useEffect(() => {
+    if (props.likes.likers.find((e) => e === loginState.userDetails_server._id)) setSelected(true);
+  }, []);
+
+
+
+   const handleLike = (selected) => {
+    let liked = !selected;
+
+      axios
+        .post(
+          `${API_URL}/handlelike?` +
+            queryString.stringify({ _id: props._id, email, googleToken }),
+          {
+            currentUserId: loginState.userDetails_server._id,
+            email,
+            liked,
+            //liked is true if user like , false if unliked ;
+          }
+        )
+        .then((res) => console.log("like Added"))
+        .catch((err) => console.log(err));
+  };
+
+
 
   const renderPost = () => (
     <>
       <CardItem>
         <Left>
-          <Thumbnail
-            source={{ uri: 'https://picsum.photos/seed/picsum/200' }}
-          />
+          <Avatar.Text size={60} label={props.creator.name?props.creator.name[0]:"X"} style={{width: 45, height: 45}}/>
           <Body>
             <Text>{props.title}</Text>
             <Text note>{moment(props.date).format('MMM D')}</Text>
@@ -95,13 +138,19 @@ export default function PostCard(props) {
       <Card>
         {renderPost()}
         <CardItem>
-          <Button transparent>
-            <Icon name="ios-thumbs-up" size={21} color="#208af5" />
-            <Text>12 </Text>
+          <Button transparent onPress={() => {
+                handleLike(selected);
+                selected
+                  ? setLikeCount(likeCount - 1)
+                  : setLikeCount(likeCount + 1);
+                setSelected(!selected); 
+              }}>
+            <AntDesign name="heart" size={25} color={selected?"#FF0000":"#D3D3D3"} />
+            <Text>{likeCount} </Text>
           </Button>
           <Button onPress={() => setComment(!comment)} transparent>
-            <Icon name="ios-chatbubbles" size={21} color="#208af5" />
-            <Text>4</Text>
+            <Icon name="ios-chatbubbles" size={25} color="#D3D3D3" />
+            <Text>{commentCount}</Text>
           </Button>
           <Right>{/* <Text>11h ago</Text> */}</Right>
         </CardItem>
@@ -111,21 +160,27 @@ export default function PostCard(props) {
 
          {comment? <CardItem style={{flexDirection: 'column'}}>
             <Text style={{fontSize: 20, fontWeight: 'bold'}}>Comments</Text>
-            {/* <Input 
-              placeholder="Add Comment..." 
-              rightIcon={<AntDesign name="rightcircle" size={30} color="black" />}    
-            /> */}
-            <AddComment />
-            <Left>
-              <Thumbnail
-                source={{ uri: 'https://picsum.photos/seed/picsum/200' }}
-                style={{width: 50, height: 50}}
-              />
-              <Body>
-                <Text>Lorem ipsum, dolor sit amet consectetu</Text>
-                <Text note>{moment(props.date).format('MMM D')}</Text>
-              </Body>
-            </Left>
+            <AddComment 
+              postId={props._id}
+              username={loginState.userDetails_server.username}
+              userId={loginState.userDetails_server._id}
+              name= {loginState.userDetails_server.name}
+              email={email}
+              googleToken={googleToken}
+              handleComment={(comment)=>{setComments((comments)=>[...comments,comment]);
+                                          SetCommentCount(commentCount+1);
+                                        }
+                              }
+            />
+            {comments
+            ? comments.map((comment,i) => (
+                <Comments
+                  {...comment}
+                  key={i}
+                  // onClick={handleComments}
+                />
+              ))
+            : null}
           </CardItem>:null}
 
 

@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AsyncStorage,ActivityIndicator } from "react-native";
 import { render } from "react-dom";
-import { View } from "react-native";
+import { View,Alert } from "react-native";
 import DashBoard from "./Home.js";
 import LogInScreen from "./screens/SignIn";
 import { AuthContext } from "./components/context";
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider,Modal, Portal, Text, Button, Provider,TextInput,HelperText,Card } from 'react-native-paper';
 import {store} from "./store";
 import { StoreProvider } from 'easy-peasy';
+import axios from 'axios';
+import queryString from 'query-string';
 
 const theme = {
   ...DefaultTheme,
@@ -22,11 +24,14 @@ const theme = {
 
 export default function App() {
 
+  const API_URL="https://connectda.herokuapp.com";
+
   const initialLoginState = {
     user: null,
     userToken: null,
     isLoading: true,
     nickname: null,
+    userDetails_server:null,
   };
 
   const loginReducer = (prevState, action) => {
@@ -51,6 +56,12 @@ export default function App() {
         return{
           ...prevState,
           nickname:action.name,
+        }
+
+      case "SetUserDetails_server":
+        return {
+          ...prevState,
+          userDetails_server:action.userDetails,
         }
     }
   };
@@ -100,8 +111,10 @@ export default function App() {
         catch(e){
           console.log(e);
         }
-        
       },
+      SetUserDetails_server: (details)=>{
+        dispatch({type:"SetUserDetails_server",userDetails:details});
+      }
     }),
     []
   );
@@ -112,9 +125,11 @@ export default function App() {
       if(userToken){
           const rawUser=await AsyncStorage.getItem("user");
           const user=JSON.parse(rawUser);
-          dispatch({ type: "LOGIN", user: user, token: userToken });
           const name=await AsyncStorage.getItem("nickname");
           dispatch({type:"SetNickname",name});
+          dispatch({ type: "LOGIN", user: user, token: userToken });
+
+
       }
       else{
         dispatch({type:"LOGIN",user:null,token:null});
@@ -122,6 +137,8 @@ export default function App() {
     }
     fetchData();
 },[]);
+
+
   
 
   if(loginState.isLoading){
@@ -139,10 +156,9 @@ export default function App() {
     <PaperProvider theme={theme}>
     <StoreProvider store={store}>
     <AuthContext.Provider value={{ authcontext, loginState }}>
-      {loginState.userToken!==null? <DashBoard/> : <LogInScreen/>}
+      {loginState.userToken===null?<LogInScreen/>:<DashBoard/>}
     </AuthContext.Provider>
     </StoreProvider>
     </PaperProvider>
-   
   );
 }
