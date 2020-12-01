@@ -4,10 +4,6 @@ To get more insights about the project, read [this](https://medium.com/code-deme
 
 This repo contains the code for YASN Mobile app built using React Native.
 
-For SLoP, we will be working on very intersting issues, both on React Native app and Yasn Server check the issues section!
-
-Tech stack (MongoDb, Express, React Native, Node)
-
 You can find the repository for the Connect(YASN) Web [here](https://github.com/hitgo00/yasn), server [here](https://github.com/hitgo00/yasn-server) and the Darkrai(Chat) server [here.](https://github.com/darkraichat/darkrai-server)
 
 ## CONNECT
