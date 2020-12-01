@@ -1,10 +1,15 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import { View, ImageBackground } from 'react-native';
 import * as Google from 'expo-google-app-auth';
 import { AuthContext } from '../components/context';
 import { SocialIcon, Text } from 'react-native-elements';
 import { Android_ID, IOS_ID } from '@env';
+import BackgroundS from '../components/BackgroundS';
 
+const image = {
+  uri:
+    'https://res.cloudinary.com/hitgo/image/upload/v1606861612/BackgroundS_wxglzf.jpg',
+};
 export default function SignIn() {
   const { authcontext } = React.useContext(AuthContext);
   const { signIn } = authcontext;
@@ -41,17 +46,73 @@ export default function SignIn() {
     }
   };
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text h1>Connect</Text>
-      <Text style={{ marginTop: 30 }}>It's exclusive!</Text>
-      <SocialIcon
-        style={{ padding: 10, margin: 10 }}
-        title="Sign In With Google"
-        button
-        type="google"
-        onPress={signInWithGoogleAsync}
-      />
-      <Text>Using @daiict.ac.in email.</Text>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <ImageBackground
+        source={image}
+        style={{ flex: 1, resizeMode: 'cover', justifyContent: 'center' }}
+      >
+        <Text
+          style={{
+            fontFamily: 'Poppins',
+            fontWeight: 'bold',
+            fontSize: 48,
+            color: 'white',
+            textAlign: 'center',
+            marginTop: 140,
+          }}
+        >
+          Welcome to YASN.
+        </Text>
+        <Text
+          style={{
+            marginTop: 30,
+            textAlign: 'center',
+            marginLeft: 24,
+            marginRight: 24,
+            fontFamily: 'Poppins, Roboto',
+            fontSize: 16,
+            color: 'white',
+          }}
+        >
+          Missing out on the awesome things happening at DAIICT? Say no more!
+          We’ve got you covered. YASN connects you to the campus in a super cool
+          way.
+        </Text>
+        <SocialIcon
+          style={{
+            padding: 10,
+            marginTop: 170,
+            backgroundColor: 'transparent',
+            borderColor: 'white',
+            borderWidth: 2,
+            borderRadius: 10,
+          }}
+          title="Sign In With Google"
+          button
+          type="google"
+          onPress={signInWithGoogleAsync}
+        />
+        <Text
+          style={{
+            fontWeight: '500',
+            margin: 10,
+            marginLeft: 14,
+            marginRight: 14,
+            color: 'white',
+            fontSize: 14,
+            textAlign: 'center',
+          }}
+        >
+          YASN love all! YASN don’t discriminate. All you need is a
+          @daiict.ac.in to get in 😉{' '}
+        </Text>
+      </ImageBackground>
     </View>
   );
 }

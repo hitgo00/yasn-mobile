@@ -50,6 +50,7 @@
     "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
+    "react-native-svg": "^12.1.0",
     "react-native-textinput-material-autocomplete": "^1.0.6",
     "react-native-uuid": "^1.4.9",
     "react-native-uuid-generator": "^6.1.1",
