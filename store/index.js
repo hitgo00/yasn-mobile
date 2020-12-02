@@ -1,4 +1,4 @@
-import { createStore, action } from "easy-peasy";
+import { createStore, action } from 'easy-peasy';
 
 export const model = {
   chat: false,
@@ -8,7 +8,6 @@ export const model = {
   messageData: [],
   setMessageData: action((state, payload) => {
     state.messageData = payload;
-   
   }),
   socket: undefined,
   setSocket: action((state, payload) => {

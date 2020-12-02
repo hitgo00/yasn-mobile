@@ -37,7 +37,6 @@ export default function Home() {
           )
       )
       .then((res) => {
-        // cookies.set('userDetails', res.data[0]);
         console.log('response : ', res.data);
         if (res.data === 'invalid token') {
           console.log('Yess Called...');
@@ -56,9 +55,15 @@ export default function Home() {
 
   return (
     <NavigationContainer>
-      <Header style={{ backgroundColor: 'transparent' }}>
+      <Header
+        style={{
+          backgroundColor: '#fff',
+          borderBottomEndRadius: 28,
+          borderBottomStartRadius: 28,
+        }}
+      >
         <Body>
-          <Text>Connect</Text>
+          <Text style={{ color: 'black', fontSize: 24 }}>YASN</Text>
         </Body>
       </Header>
 

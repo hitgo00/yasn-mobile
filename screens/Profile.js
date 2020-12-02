@@ -1,37 +1,51 @@
-import React,{Fragment} from "react";
-import { Container } from "native-base";
-import { StyleSheet, View, SafeAreaView ,Alert,ScrollView} from "react-native";
-import {  Image } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { AuthContext } from "../components/context";
-import { AsyncStorage} from "react-native";
-import { Modal, Portal, Text, Button, Provider,TextInput,HelperText,Card, ActivityIndicator } from 'react-native-paper';
+import React, { Fragment } from 'react';
+import { Container } from 'native-base';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Alert,
+  ScrollView,
+} from 'react-native';
+import { Image } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { AuthContext } from '../components/context';
+import { AsyncStorage } from 'react-native';
+import {
+  Modal,
+  Portal,
+  Text,
+  Button,
+  Provider,
+  TextInput,
+  HelperText,
+  Card,
+  ActivityIndicator,
+} from 'react-native-paper';
 import * as yup from 'yup';
 import { Formik } from 'formik';
-import  MultiSelect  from 'react-native-multiple-select';
+import MultiSelect from 'react-native-multiple-select';
 import axios from 'axios';
 import queryString from 'query-string';
-import ProfileCard from "../components/ProfileCard";
-import UserDetailForm from "../components/UserDetailForm";
+import ProfileCard from '../components/ProfileCard';
+import UserDetailForm from '../components/UserDetailForm';
 //import {API_URL} from "@env";
-
-
 
 export default (Profile = () => {
   const { authcontext, loginState } = React.useContext(AuthContext);
   const { signOut } = authcontext;
 
   const [visible, setVisible] = React.useState(false);
-  const [userDetails,setUserDetails]=React.useState({});
-//  const [clubComm, setclubComm]=React.useState([]);
+  const [userDetails, setUserDetails] = React.useState({});
+  //  const [clubComm, setclubComm]=React.useState([]);
 
-  const email=loginState.user.email;
-  const googleToken=loginState.userToken;
-  const API_URL="https://connectda.herokuapp.com"
+  const email = loginState.user.email;
+  const googleToken = loginState.userToken;
+  const API_URL = 'https://connectda.herokuapp.com';
   console.log(API_URL);
-   
-  React.useEffect(()=>{
-    console.log("Get request Again..");
+
+  React.useEffect(() => {
+    console.log('Get request Again..');
     axios
       .get(
         `${API_URL}/checkprofile?` +
@@ -41,33 +55,34 @@ export default (Profile = () => {
           )
       )
       .then((res) => {
-       // cookies.set('userDetails', res.data[0]);
+        // cookies.set('userDetails', res.data[0]);
         console.log(res.data);
         if (res.data === 'invalid token') {
-          Alert.alert("Your Session is Expired","Please Login Again.");
-        }
-        else if (res.data===false) {
+          Alert.alert('Your Session is Expired', 'Please Login Again.');
+        } else if (res.data === false) {
           setVisible(true);
-        }
-        else{
+        } else {
           setUserDetails(res.data[0]);
           setVisible(false);
         }
       });
-  },[visible]);
-  
+  }, [visible]);
 
-  console.log("From Profile....", loginState.user);
-  console.log("User_Details: ",userDetails);
+  console.log('From Profile....', loginState.user);
+  console.log('User_Details: ', userDetails);
 
- 
-
- 
   return (
-        <SafeAreaView style={{flex:1 ,alignItems:'center',justifyContent:'center',margin:30}}>
-          <View style={{flex:1,flexDirection:"row" ,alignItems:'center',justifyContent:'center'}}>
-         {userDetails.email?
-           <ProfileCard
+    <SafeAreaView
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000',
+      }}
+    >
+      <View style={{ flex: 1, paddingBottom: 70 }}>
+        {userDetails.email ? (
+          <ProfileCard
             name={userDetails.name}
             clubs={userDetails.clubsNumber}
             roll={userDetails.email.split('@')[0]}
@@ -77,14 +92,24 @@ export default (Profile = () => {
             linkedin={userDetails.linkedInUrl}
             instagram={userDetails.instaUrl}
             username={userDetails.username}
-          />:<ActivityIndicator animating={true} />}
-          </View>
-          <Button
-            style={{margin:10,justifyContent:'center',alignItems:'center'}}
-            mode="outlined"
-            icon="power"
-            onPress={signOut}
-          >Sign Out</Button>
-        </SafeAreaView>
+          />
+        ) : (
+          <ActivityIndicator animating={true} />
+        )}
+        <Button
+          type="dark"
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderColor: 'white',
+          }}
+          mode="outlined"
+          // icon="power"
+          onPress={signOut}
+        >
+          <Text style={{ color: '#fff' }}>Sign Out</Text>
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 });

@@ -73,7 +73,12 @@ export default function PostCard(props) {
           <Avatar.Text
             size={60}
             label={props.creator.name ? props.creator.name[0] : 'X'}
-            style={{ width: 45, height: 45, color: 'white' }}
+            style={{
+              width: 45,
+              height: 45,
+              color: 'white',
+              backgroundColor: '#EAEAEA',
+            }}
           />
           <Body>
             <Text style={{ color: 'white' }}>{props.title}</Text>
