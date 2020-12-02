@@ -56,7 +56,7 @@ export default function Home() {
 
   return (
     <NavigationContainer>
-      <Header>
+      <Header style={{ backgroundColor: 'transparent' }}>
         <Body>
           <Text>Connect</Text>
         </Body>

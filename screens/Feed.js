@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
-import { StyleSheet, View, SafeAreaView, Alert } from 'react-native';
+import { ImageBackground, Alert } from 'react-native';
 import { Container, Text, Content, Header, Body } from 'native-base';
 //import PostCard from "../components/PostCard";
 import PostCard from '../components/PostCard/index';
@@ -9,6 +9,10 @@ import { AuthContext } from '../components/context';
 //import { API_URL } from "@env";
 import { useFocusEffect } from '@react-navigation/native';
 
+const image = {
+  uri:
+    'https://res.cloudinary.com/hitgo/image/upload/v1606861612/BackgroundS_wxglzf.jpg',
+};
 export default (Feed = () => {
   const [browseTag, SetBrowseTag] = useState('');
   const [posts, setPosts] = useState();
@@ -70,10 +74,19 @@ export default (Feed = () => {
     /* <SafeAreaView style={{ flex: 1 }}>{<GoogleSignIn />}</SafeAreaView>; */
   }
   return (
-    <Content style={{ backgroundColor: '#000000' }}>
-      {posts
-        ? posts.map((post) => <PostCard {...post} key={post._id} />)
-        : null}
+    <Content style={{ backgroundColor: '#000000', marginBottom: 56 }}>
+      <ImageBackground
+        source={image}
+        style={{
+          flex: 1,
+          resizeMode: 'repeat',
+          justifyContent: 'center',
+        }}
+      >
+        {posts
+          ? posts.map((post) => <PostCard {...post} key={post._id} />)
+          : null}
+      </ImageBackground>
     </Content>
   );
 });
