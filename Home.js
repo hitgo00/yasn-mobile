@@ -58,8 +58,8 @@ export default function Home() {
       <Header
         style={{
           backgroundColor: '#fff',
-          borderBottomEndRadius: 28,
-          borderBottomStartRadius: 28,
+          borderBottomEndRadius: 21,
+          borderBottomStartRadius: 21,
         }}
       >
         <Body>
@@ -100,7 +100,6 @@ export default function Home() {
           tabBarOptions={{
             activeTintColor: '#208af5',
             inactiveTintColor: '#D0D0D0',
-
             style: {
               marginHorizontal: 8,
               marginBottom: 3,

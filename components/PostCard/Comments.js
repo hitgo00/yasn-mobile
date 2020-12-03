@@ -17,7 +17,12 @@ export default function Comments(props) {
       <Avatar.Text
         size={60}
         label={props.name ? props.name[0] : 'X'}
-        style={{ width: 45, height: 45 }}
+        style={{
+          width: 45,
+          height: 45,
+          color: 'white',
+          backgroundColor: '#EAEAEA',
+        }}
       />
       <View style={{ padding: 5, marginLeft: 10 }}>
         <Text style={{ color: 'white' }}>{props.comment}</Text>
