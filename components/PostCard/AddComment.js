@@ -81,7 +81,7 @@ export default function AddComment(props) {
             style={styles.input}
             value={values.comment}
             onChangeText={handleChange('comment')}
-            onBlur={() => setFieldTouched('comment')}
+            // onBlur={() => setFieldTouched('comment')}
             placeholder="Add a comment"
           />
           <Icon name="send" size={20} color="#fff" onPress={handleSubmit} />

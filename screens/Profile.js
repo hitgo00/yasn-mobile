@@ -77,7 +77,7 @@ export default (Profile = () => {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#000',
+        backgroundColor: '#0B0C10',
       }}
     >
       <View style={{ flex: 1, paddingBottom: 70 }}>

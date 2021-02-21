@@ -4,7 +4,6 @@ import * as Google from 'expo-google-app-auth';
 import { AuthContext } from '../components/context';
 import { SocialIcon, Text } from 'react-native-elements';
 import { Android_ID, IOS_ID } from '@env';
-import BackgroundS from '../components/BackgroundS';
 
 const image = {
   uri:
@@ -66,7 +65,6 @@ export default function SignIn() {
         >
           <Text
             style={{
-              fontFamily: 'Poppins',
               fontWeight: 'bold',
               fontSize: 48,
               color: 'white',
@@ -82,7 +80,6 @@ export default function SignIn() {
               textAlign: 'center',
               marginLeft: 24,
               marginRight: 24,
-              fontFamily: 'Poppins, Roboto',
               fontSize: 16,
               color: 'white',
             }}

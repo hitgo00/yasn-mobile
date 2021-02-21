@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import queryString from 'query-string';
-import { ImageBackground, Alert } from 'react-native';
-import { Container, Text, Content, Header, Body, View } from 'native-base';
-//import PostCard from "../components/PostCard";
+import { ImageBackground, Alert, ScrollView } from 'react-native';
 import PostCard from '../components/PostCard/index';
 import { AuthContext } from '../components/context';
-//import { API_URL } from "@env";
 import { useFocusEffect } from '@react-navigation/native';
 
 const image = {
@@ -68,18 +65,11 @@ export default (Feed = () => {
 
       .catch((err) => console.log(err));
   }, []);
-  //  console.log(posts);
-
-  {
-    /* <SafeAreaView style={{ flex: 1 }}>{<GoogleSignIn />}</SafeAreaView>; */
-  }
   return (
-    <Content style={{ backgroundColor: '#000' }}>
-      <View style={{ paddingBottom: 70 }}>
+      <ScrollView keyboardShouldPersistTaps="handled" style={{ paddingBottom: 70, backgroundColor: '#0B0C10' }}>
         {posts
           ? posts.map((post) => <PostCard {...post} key={post._id} />)
           : null}
-      </View>
-    </Content>
+      </ScrollView>
   );
 });

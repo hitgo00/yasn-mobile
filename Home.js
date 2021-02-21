@@ -58,8 +58,8 @@ export default function Home() {
       <Header
         style={{
           backgroundColor: '#fff',
-          borderBottomEndRadius: 21,
-          borderBottomStartRadius: 21,
+          borderBottomEndRadius: 14,
+          borderBottomStartRadius: 14,
         }}
       >
         <Body>

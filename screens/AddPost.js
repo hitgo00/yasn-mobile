@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {
   ScrollView,
   SafeAreaView,
-  Image,
   Alert,
-  ActivityIndicator,
 } from 'react-native';
-import { Text, Container } from 'native-base';
+import { Container } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import { AuthContext } from '../components/context';
 import {
@@ -14,13 +12,11 @@ import {
   Button,
   TextInput,
   HelperText,
-  CardMedia,
-  Title,
 } from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import axios from 'axios';
 import queryString from 'query-string';
-import { API_URL, Cloud, Preset } from '@env';
+import { API_URL, CLOUD, Preset } from '@env';
 import { Video } from 'expo-av';
 
 const tags = [
@@ -34,7 +30,7 @@ const tags = [
 
 export default (Profile = () => {
   const { loginState, authcontext } = React.useContext(AuthContext);
-  console.log('MY Attr : ', Cloud, Preset);
+  console.log(CLOUD, Preset);
 
   const email = loginState.user.email;
   const googleToken = loginState.userToken;
@@ -48,7 +44,7 @@ export default (Profile = () => {
       if (Platform.OS !== 'web') {
         const {
           status,
-        } = await ImagePicker.requestCameraRollPermissionsAsync();
+        } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
           alert('Sorry, we need camera roll permissions to make this work!');
         }
@@ -97,10 +93,10 @@ export default (Profile = () => {
         const data = new FormData();
         data.append('file', file);
         data.append('upload_preset', Preset);
-        data.append('cloud_name', Cloud);
+        data.append('cloud_name', CLOUD);
         data.append('folder', 'daconnect');
 
-        fetch(`https://api.cloudinary.com/v1_1/${Cloud}/${IV.type}/upload/`, {
+        fetch(`https://api.cloudinary.com/v1_1/${CLOUD}/${IV.type}/upload/`, {
           method: 'post',
           body: data,
         })

@@ -1,21 +1,16 @@
-import React, { Component, useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import moment from 'moment';
 import { CLOUD } from '@env';
 import { Caption, Avatar } from 'react-native-paper';
-import { Video, Audio } from 'expo-av';
+import { Video } from 'expo-av';
 import { Image, TouchableHighlight, Alert } from 'react-native';
 import {
   Card,
   CardItem,
-  Thumbnail,
   Text,
   Button,
   Left,
   Body,
-  Right,
-  View,
-  Input,
-  Item,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { AntDesign } from '@expo/vector-icons';
@@ -38,10 +33,6 @@ export default function PostCard(props) {
   const { loginState } = React.useContext(AuthContext);
   const email = loginState.user.email;
   const googleToken = loginState.userToken;
-
-  // if (!loginState.userDetails_server) {
-  //   Alert.alert("Please Complete Your Profile from Profile Section First..");
-  // }
 
   useEffect(() => {
     if (props.likes.likers.find((e) => e === loginState.userDetails_server._id))
@@ -68,7 +59,7 @@ export default function PostCard(props) {
 
   const renderPost = () => (
     <>
-      <CardItem style={{ backgroundColor: 'transparent', marginBottom: 7 }}>
+      <CardItem style={{ backgroundColor: 'transparent', }}>
         <Left>
           <Avatar.Text
             size={60}
@@ -90,7 +81,7 @@ export default function PostCard(props) {
       </CardItem>
       <CardItem
         cardBody
-        style={{ backgroundColor: 'transparent', marginHorizontal: 4 }}
+        style={{ backgroundColor: 'transparent', marginHorizontal: 2 }}
       >
         {props.imageUrl ? (
           <Image
@@ -103,7 +94,7 @@ export default function PostCard(props) {
               height: 375,
               width: 375,
               flex: 1,
-              borderRadius: 21,
+              borderRadius: 10,
             }}
           />
         ) : (
@@ -139,7 +130,7 @@ export default function PostCard(props) {
               shouldPlay={true}
               isLooping
               // useNativeControls={true}
-              style={{ width: 375, height: 375, borderRadius: 21 }}
+              style={{ width: 375, height: 375, borderRadius: 10 }}
             />
           </TouchableHighlight>
         )}
