@@ -10,7 +10,7 @@ You can find the repository for the Connect(YASN) Web [here](https://github.com/
 
 A YASN exclusively for students of DAIICT!
 
-<img src="https://github.com/hitgo00/yasn-mobile/blob/master/assets/ss.png" height="490">
+https://user-images.githubusercontent.com/41156157/124120703-b19e8080-da91-11eb-8fbb-b8f217c77e8e.MP4
 
 
 ## Development
